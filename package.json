@@ -1,0 +1,31 @@
+{
+  "name": "sa-qa-evallo-automation",
+  "version": "1.0.0",
+  "description": "Automated test suite for Sauce Demo e-commerce application",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:report": "npx playwright show-report",
+    "test:codegen": "npx playwright codegen https://www.saucedemo.com",
+    "install:browsers": "npx playwright install"
+  },
+  "keywords": [
+    "automation",
+    "testing",
+    "playwright",
+    "e2e",
+    "saucedemo"
+  ],
+  "author": "QA Engineer",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
