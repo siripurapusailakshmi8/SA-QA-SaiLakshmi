@@ -21,13 +21,13 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
   test('Application loads and login page is accessible', async ({ page }) => {
     await test.step('Navigate to application', async () => {
       await loginPage.navigate();
-      
+
       // Verify page loads
       expect(await loginPage.getTitle()).toBe('Swag Labs');
-      
+
       // Verify login form is visible
       expect(await loginPage.isLoginPageDisplayed()).toBe(true);
-      
+
       // Verify logo is displayed
       expect(await loginPage.isLogoVisible()).toBe(true);
     });
@@ -37,7 +37,7 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
     await test.step('Login with valid credentials', async () => {
       await loginPage.navigate();
       await loginPage.loginAsStandardUser();
-      
+
       // Verify successful login
       await expect(page).toHaveURL(/.*inventory/);
       expect(await inventoryPage.isInventoryPageDisplayed()).toBe(true);
@@ -49,16 +49,16 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
     await test.step('Verify product catalog is functional', async () => {
       await loginPage.navigate();
       await loginPage.loginAsStandardUser();
-      
+
       // Verify products are displayed
       const productCount = await inventoryPage.getInventoryItemCount();
       expect(productCount).toBeGreaterThan(0);
-      
+
       // Verify product names are loaded
       const productNames = await inventoryPage.getProductNames();
       expect(productNames.length).toBeGreaterThan(0);
       expect(productNames[0]).toBeTruthy();
-      
+
       // Verify product prices are displayed
       const productPrices = await inventoryPage.getProductPrices();
       expect(productPrices.length).toBeGreaterThan(0);
@@ -70,14 +70,14 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
     await test.step('Verify cart functionality', async () => {
       await loginPage.navigate();
       await loginPage.loginAsStandardUser();
-      
+
       // Add item to cart
       const productName = await inventoryPage.addFirstProductToCart();
-      
+
       // Verify cart badge appears
       const cartCount = await inventoryPage.getCartItemCount();
       expect(cartCount).toBe(1);
-      
+
       // Verify button changes to "Remove"
       const isInCart = await inventoryPage.isProductInCart(productName);
       expect(isInCart).toBe(true);
@@ -88,18 +88,18 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
     await test.step('Verify cart page functionality', async () => {
       await loginPage.navigate();
       await loginPage.loginAsStandardUser();
-      
+
       // Add item and navigate to cart
       const productName = await inventoryPage.addFirstProductToCart();
       await inventoryPage.goToCart();
-      
+
       // Verify cart page loads
       expect(await cartPage.isCartPageDisplayed()).toBe(true);
-      
+
       // Verify item is in cart
       const cartItems = await cartPage.getCartItemNames();
       expect(cartItems).toContain(productName);
-      
+
       // Verify checkout button is present
       const checkoutButton = cartPage.checkoutButton;
       expect(await checkoutButton.isVisible()).toBe(true);
@@ -110,16 +110,16 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
     await test.step('Verify checkout process starts', async () => {
       await loginPage.navigate();
       await loginPage.loginAsStandardUser();
-      
+
       // Add item and proceed to checkout
       await inventoryPage.addFirstProductToCart();
       await inventoryPage.goToCart();
       await cartPage.proceedToCheckout();
-      
+
       // Verify checkout information page loads
       await expect(page).toHaveURL(/.*checkout-step-one/);
       expect(await checkoutPage.isCheckoutInformationPageDisplayed()).toBe(true);
-      
+
       // Verify form fields are present
       expect(await checkoutPage.firstNameInput.isVisible()).toBe(true);
       expect(await checkoutPage.lastNameInput.isVisible()).toBe(true);
@@ -131,10 +131,10 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
     await test.step('Verify logout process', async () => {
       await loginPage.navigate();
       await loginPage.loginAsStandardUser();
-      
+
       // Perform logout
       await inventoryPage.logout();
-      
+
       // Verify return to login page
       await expect(page).toHaveURL(/.*\/$/);
       expect(await loginPage.isLoginPageDisplayed()).toBe(true);
@@ -145,10 +145,10 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
     await test.step('Verify security controls work', async () => {
       await loginPage.navigate();
       await loginPage.loginAsLockedOutUser();
-      
+
       // Verify error message is shown
       expect(await loginPage.isErrorMessageDisplayed()).toBe(true);
-      
+
       // Verify user remains on login page
       expect(await loginPage.isLoginPageDisplayed()).toBe(true);
       expect(page.url()).not.toContain('inventory');
@@ -158,19 +158,19 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
   test('Cross-browser compatibility check', async ({ page, browserName }) => {
     await test.step(`Verify basic functionality on ${browserName}`, async () => {
       await loginPage.navigate();
-      
+
       // Verify page loads correctly across browsers
       expect(await loginPage.isLoginPageDisplayed()).toBe(true);
-      
+
       // Verify login works
       await loginPage.loginAsStandardUser();
       expect(await inventoryPage.isInventoryPageDisplayed()).toBe(true);
-      
+
       // Verify basic interaction
       await inventoryPage.addFirstProductToCart();
       const cartCount = await inventoryPage.getCartItemCount();
       expect(cartCount).toBe(1);
-      
+
       console.log(`✅ Smoke test passed on ${browserName}`);
     });
   });
@@ -178,16 +178,16 @@ test.describe('Smoke Tests - Critical Path Validation', () => {
   test('Performance check - page load times', async ({ page }) => {
     await test.step('Verify reasonable load times', async () => {
       const startTime = Date.now();
-      
+
       await loginPage.navigate();
       await loginPage.loginAsStandardUser();
-      
+
       const endTime = Date.now();
       const loadTime = endTime - startTime;
-      
+
       // Verify login and page load completes within reasonable time (10 seconds)
       expect(loadTime).toBeLessThan(10000);
-      
+
       console.log(`📊 Login and inventory load time: ${loadTime}ms`);
     });
   });

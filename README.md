@@ -79,7 +79,7 @@ npx playwright test tests/e2e/purchase-flow.spec.ts
 npx playwright test --project=chromium --project=firefox
 
 # Run tests in parallel
-npx playwright test --workers=3
+npx playwright test --workers=1
 
 # Run tests with specific timeout
 npx playwright test --timeout=60000
