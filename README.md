@@ -250,19 +250,3 @@ Found a bug during automation? See `docs/Defect-Report.md` for the reporting tem
 4. Push to branch (`git push origin feature/new-test`)
 5. Create a Pull Request
 
-##  Support
-
-For questions or issues:
-- **Email**: qa-team@company.com
-- **Slack**: #qa-automation
-- **Documentation**: [Internal Wiki](https://wiki.company.com/qa)
-
-##  License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-**Last Updated**: July 13, 2025  
-**Version**: 1.0.0  
-**Maintainer**: QA Engineering Team
